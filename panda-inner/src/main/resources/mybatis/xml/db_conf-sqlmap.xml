@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shotdog.panda.inner.dao.DbConfDao">
+    <!--Create by Auto Generator -->
+
+    <resultMap type="com.shotdog.panda.inner.model.DbConf" id="DbConfMap">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="db_name" property="dbName"/>
+        <result column="type" property="type"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <sql id="_field_list">
+         `id`,
+         `name`,
+         `db_name`,
+         `type`,
+         `host`,
+         `port`,
+         `user_name`,
+         `password`,
+         `create_time`,
+         `modify_time`
+    </sql>
+
+
+    <sql id="_value_list">
+     #{id},
+     #{name},
+     #{dbName},
+     #{type},
+     #{host},
+     #{port},
+     #{userName},
+     #{password},
+     #{createTime},
+     #{modifyTime}
+    </sql>
+
+
+    <sql id="_common_where">
+     <if test="id !=null">AND `id`=#{id}</if>
+     <if test="name !=null and name !=''">AND `name`=#{name}</if>
+     <if test="dbName !=null">AND `db_name`=#{dbName}</if>
+     <if test="type !=null">AND `type`=#{type}</if>
+     <if test="host !=null">AND `host`=#{host}</if>
+     <if test="port !=null">AND `port`=#{port}</if>
+     <if test="userName !=null">AND `user_name`=#{userName}</if>
+     <if test="password !=null">AND `password`=#{password}</if>
+     <if test="createTime !=null">AND `create_time`=#{createTime}</if>
+     <if test="modifyTime !=null">AND `modify_time`=#{modifyTime}</if>
+    </sql>
+
+    <sql id="_common_sort">
+        <if test="sorts !=null">
+            ORDER BY
+            <foreach collection="sorts" item="sort" separator=",">
+            ${sort.columnName} ${sort.sortMode.mode}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="_page_field">
+        <if test="offset != null and rows !=null">
+           LIMIT #{offset},#{rows}
+        </if>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `db_conf`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="_field_list"/>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="_value_list"/>
+        </trim>
+    </insert>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="DbConfMap">
+        SELECT
+        <include refid="_field_list"/>
+        FROM `db_conf`
+        WHERE `id` = #{id} limit 1
+    </select>
+
+    <select id="selectByIdForUpdate" parameterType="java.lang.Long" resultMap="DbConfMap">
+        SELECT
+        <include refid="_field_list"/>
+        FROM `db_conf`
+        WHERE `id` = #{id} limit 1 FOR UPDATE
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM `db_conf` WHERE `id` = #{id} limit 1
+    </delete>
+
+    <update id="updateById">
+        UPDATE `db_conf`
+        <trim prefix="SET" suffixOverrides="," prefixOverrides=",">
+            <if test="name !=null">`name`=#{name},</if>
+            <if test="dbName !=null">`db_name`=#{dbName},</if>
+            <if test="type !=null">`type`=#{type},</if>
+            <if test="host !=null">`host`=#{host},</if>
+            <if test="port !=null">`port`=#{port},</if>
+            <if test="userName !=null">`user_name`=#{userName},</if>
+            <if test="password !=null">`password`=#{password},</if>
+            <if test="createTime !=null">`create_time`=#{createTime},</if>
+            <if test="modifyTime !=null">`modify_time`=#{modifyTime},</if>
+        </trim>
+        WHERE `id`=#{id} LIMIT 1
+    </update>
+
+    <select id="queryListByParam" parameterType="map" resultMap="DbConfMap">
+        SELECT
+        <include refid="_field_list"/>
+        FROM `db_conf`
+        <where>
+            <include refid="_common_where"/>
+        </where>
+        <include refid="_common_sort"/>
+        <include refid="_page_field"/>
+    </select>
+
+    <select id="queryCountByParam" parameterType="map" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM `db_conf`
+        <where>
+            <include refid="_common_where"/>
+        </where>
+    </select>
+
+</mapper>

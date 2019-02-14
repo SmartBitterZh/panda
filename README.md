@@ -83,7 +83,7 @@ java -jar  panda-web-1.0.jar
 
 * 打开控制台(http://localhost:5321)添加数据库配置
 
-![数据库配置](./raw/master/screenshot/db-config.png "数据库配置")
+![数据库配置](./screenshot/db-config.png "数据库配置")
 
 * 生成指定的代码
     

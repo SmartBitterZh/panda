@@ -94,7 +94,7 @@ java -jar  panda-web-1.0.jar
     5. 勾选您要使用的表。
     6. 点击生成代码即可生成。
 
-![生成代码](../raw/master/screenshot/create.png "生成代码")
+![生成代码](./screenshot/create.png "生成代码")
 
 
 
@@ -104,15 +104,15 @@ java -jar  panda-web-1.0.jar
 
 * 点击左侧自定义生成菜单 添加数据表
 
-![表](../screenshot/table.png "表信息")
+![表](./screenshot/table.png "表信息")
 
 * 点击添加字段信息
 
-![字段](../screenshot/field.png "字段信息")
+![字段](./screenshot/field.png "字段信息")
 
 * 输入生成的对应的包名点击生成代码即可。
 
-![自定义](../screenshot/custom.png "自定义")
+![自定义](./screenshot/custom.png "自定义")
 
 
 

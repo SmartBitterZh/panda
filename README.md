@@ -83,7 +83,7 @@ java -jar  panda-web-1.0.jar
 
 * 打开控制台(http://localhost:5321)添加数据库配置
 
-![数据库配置](../screenshot/db-config.png "数据库配置")
+![数据库配置](..//raw/master/screenshot/db-config.png "数据库配置")
 
 * 生成指定的代码
     
@@ -94,7 +94,7 @@ java -jar  panda-web-1.0.jar
     5. 勾选您要使用的表。
     6. 点击生成代码即可生成。
 
-![生成代码](../screenshot/create.png "生成代码")
+![生成代码](../raw/master/screenshot/create.png "生成代码")
 
 
 

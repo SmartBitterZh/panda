@@ -12,17 +12,20 @@ import    java.util.Date;
 import    java.match.BigDecimal;
 </#if>
 /***
- *
- * @author Create By Panda
+ * @author zhangjianlong6
+ * @Date: ${.now}
+ * @Description: do for ${table.remark}
  */
 @Data
 @ToString(callSuper = true)
-public class ${table.modelName} implements Serializable {
+public class ${table.modelName}DO implements Serializable {
 
 
 
 <#list  table.fieldList as field>
-	// ${field.remark}
+	/**
+     * ${field.remark}
+     */
 	private ${field.fieldType} ${field.fieldName};
 
 </#list>

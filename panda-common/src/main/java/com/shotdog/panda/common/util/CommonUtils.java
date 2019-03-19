@@ -53,18 +53,24 @@ public class CommonUtils {
      * @param jdbcType jdbc 类型
      * @return
      */
-    public static String toJavaType(String jdbcType) {
-
-
-        if (jdbcType.equals("CHAR") || jdbcType.equals("VARCHAR") || jdbcType.equals("LONGVARCHAR") || jdbcType.equals("TEXT") || jdbcType.equals("LONGTEXT")) {
+    public static String toJavaType(String jdbcType, Integer length, Integer digits) {
+        if (jdbcType.equals("CHAR") || jdbcType.equals("VARCHAR") || jdbcType.equals("VARCHAR2") || jdbcType.equals("LONGVARCHAR") || jdbcType.equals("TEXT") || jdbcType.equals("LONGTEXT")) {
             return "String";
-        } else if (jdbcType.equals("NUMERIC") || jdbcType.equals("DECIMAL")) {
+        } else if (length <= 0 && (jdbcType.equals("NUMERIC") || jdbcType.equals("DECIMAL"))) {
             return "BigDecimal";
+        } else if (length > 0 && jdbcType.equals("NUMERIC")) {
+            if (digits > 0) {
+                return "BigDecimal";
+            } else if (length < 7) {
+                return "Integer";
+            } else {
+                return "Long";
+            }
         } else if (jdbcType.equals("BIT") || jdbcType.equals("BOOLEAN")) {
             return "boolean";
         } else if (jdbcType.equals("TINYINT") || jdbcType.equals("SMALLINT") || jdbcType.equals("INTEGER") || jdbcType.equals("INT") || jdbcType.equals("INT UNSIGNED") || jdbcType.equals("SMALLINT UNSIGNED") || jdbcType.equals("TINYINT UNSIGNED")) {
             return "Integer";
-        } else if (jdbcType.equals("BIGINT") || jdbcType.equals("BIGINT UNSIGNED")) {
+        } else if (jdbcType.equals("BIGINT") || jdbcType.equals("LONG") || jdbcType.equals("BIGINT UNSIGNED")) {
             return "Long";
         } else if (jdbcType.equals("DATE") || jdbcType.equals("DATETIME")) {
             return "Date";
@@ -78,17 +84,17 @@ public class CommonUtils {
             return "Float";
         } else if (jdbcType.equals("DOUBLE")) {
             return "Double";
-        }else if (jdbcType.equals("CLOB")) {
+        } else if (jdbcType.equals("CLOB")) {
             return "Clob";
         } else if (jdbcType.equals("BLOB")) {
             return "Blob";
+        } else if (jdbcType.equals("BIT")) {
+            return "Boolean";
         }
-
 
         return jdbcType;
 
     }
-
 
     /**
      * 首字母大写
@@ -186,18 +192,19 @@ public class CommonUtils {
 
     /**
      * 获取jdbc url
+     *
      * @param dbName 数据库名
-     * @param host 地址
-     * @param port  端口
+     * @param host   地址
+     * @param port   端口
      * @return
      */
-    public static String generateJdbcUrl(String dbName,Integer type,String host,int port){
+    public static String generateJdbcUrl(String dbName, Integer type, String host, int port) {
 
-        if (DatabaseTypeEnum.MYSQL.getValue() == type){
-            return String.format("jdbc:mysql://%s:%s/%s?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull",host,port,dbName);
-        }else if (DatabaseTypeEnum.ORACLE.getValue() == type){
+        if (DatabaseTypeEnum.MYSQL.getValue() == type) {
+            return String.format("jdbc:mysql://%s:%s/%s?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull", host, port, dbName);
+        } else if (DatabaseTypeEnum.ORACLE.getValue() == type) {
 
-            return String.format("jdbc:oracle:thin:@%s:%s:%s",host,port,dbName);
+            return String.format("jdbc:oracle:thin:@%s:%s:%s", host, port, dbName);
         }
 
         throw new IllegalArgumentException("不支持数据库类型");
@@ -206,15 +213,15 @@ public class CommonUtils {
 
     /**
      * 获取驱动类
+     *
      * @param type 数据库类型
      * @return
      */
-    public static String generateDriverClass(Integer type){
+    public static String generateDriverClass(Integer type) {
 
-        if (DatabaseTypeEnum.MYSQL.getValue() == type){
+        if (DatabaseTypeEnum.MYSQL.getValue() == type) {
             return "com.mysql.jdbc.Driver";
-        }else if (DatabaseTypeEnum.ORACLE.getValue() == type){
-
+        } else if (DatabaseTypeEnum.ORACLE.getValue() == type) {
             return "oracle.jdbc.driver.OracleDriver";
         }
 
@@ -223,21 +230,23 @@ public class CommonUtils {
 
     /**
      * 是否为Date 类型
+     *
      * @param javaType java 类型
      * @return
      */
-    public static boolean isDateType(String javaType){
+    public static boolean isDateType(String javaType) {
 
-        return  "Date".equalsIgnoreCase(javaType);
+        return "Date".equalsIgnoreCase(javaType);
     }
 
 
     /**
      * 是否为 BigDecimal 类型
+     *
      * @param javaType java 类型
      * @return
      */
-    public static boolean isBigDecimalType(String javaType){
+    public static boolean isBigDecimalType(String javaType) {
 
         return "BigDecimal".equalsIgnoreCase(javaType);
     }

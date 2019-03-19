@@ -1,11 +1,12 @@
-package	${daoPackage};
+package    ${daoPackage};
 
-import	${modelPackage}.${table.modelName};
-import	${queryPackage}.${table.modelName}Query;
+import	${modelPackage}.${table.modelName}DO;
+import    ${queryPackage}.${table.modelName}Query;
 /***
- *
- * @author Create By Panda
- */
+* @author zhangjianlong6
+* @Date: ${.now}
+* @Description: dao for ${table.remark}
+*/
 public interface ${table.modelName}Dao extends BaseDao<${table.pkFieldType},${table.modelName},${table.modelName}Query> {
 
 

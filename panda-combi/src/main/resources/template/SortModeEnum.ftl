@@ -2,8 +2,9 @@ package	${queryPackage};
 
 import lombok.Getter;
 /***
- *
- * @author create by Panda
+ * @author zhangjianlong6
+ * @Date: ${.now}
+ * @Description: sort model enum
  */
 @Getter
 public enum SortModeEnum {

@@ -43,4 +43,6 @@ public class Table implements Serializable {
 
     // 是否包含有decimal 类型
     private boolean includeDecimal;
+    // 备注
+    private String remark;
 }

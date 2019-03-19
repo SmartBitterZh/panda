@@ -4,6 +4,7 @@ import com.shotdog.panda.common.exception.PandaException;
 import com.shotdog.panda.common.model.Field;
 import com.shotdog.panda.common.model.Table;
 import javafx.util.Pair;
+import oracle.jdbc.OracleConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,17 +33,13 @@ public class MetaDataUtils {
      * @return
      */
     public static List<Table> loadTableList(Connection connection, List<String> tables) throws SQLException {
-
         if (tables != null && !tables.isEmpty()) {
-
             checkTableName(connection, tables);
-
         } else {
             tables = loadAllTableName(connection);
         }
 
         if (tables == null || tables.isEmpty()) {
-
             throw new PandaException("the provide database has no table error!");
         }
         return loadTables(connection, tables);
@@ -79,9 +76,8 @@ public class MetaDataUtils {
      */
     public static Table loadTableInfoByTableName(Connection connection, String tableName) throws SQLException {
 
-
+        ((OracleConnection) connection).setRemarksReporting(true);
         ResultSet columnsResult = connection.getMetaData().getColumns(null, null, tableName, null);
-
 
         List<Field> fieldList = new ArrayList<Field>();
 
@@ -91,6 +87,8 @@ public class MetaDataUtils {
         while (columnsResult.next()) {
 
             String column = columnsResult.getString("COLUMN_NAME");
+            Integer size = columnsResult.getInt("COLUMN_SIZE");
+            Integer digits = columnsResult.getInt("DECIMAL_DIGITS");
             String typeName = columnsResult.getString("TYPE_NAME");
             String remark = columnsResult.getString("REMARKS");
             log.info("load column name >>>>>>>>>" + column);
@@ -98,7 +96,7 @@ public class MetaDataUtils {
             log.info("load column remark >>>>>>>>" + remark);
 
             String filedName = CommonUtils.toFirstLower(CommonUtils.toHump(CommonUtils.toLower(column)));
-            String fieldType = CommonUtils.toJavaType(typeName);
+            String fieldType = CommonUtils.toJavaType(typeName, size, digits);
 
             if (!includeDateType) {
                 includeDateType = CommonUtils.isDateType(fieldType);
@@ -115,6 +113,8 @@ public class MetaDataUtils {
 
             field.setFieldType(fieldType);
             field.setColumnType(typeName);
+            field.setSize(size);
+            field.setDigits(digits);
             fieldList.add(field);
 
         }
@@ -144,6 +144,7 @@ public class MetaDataUtils {
         table.setPkFieldType(table.getFieldList().get(table.getPkSeq() - 1).getFieldType());
         table.setIncludeDateType(includeDateType);
         table.setIncludeDecimal(includeDecimalType);
+        table.setRemark("");
         return table;
     }
 
@@ -175,7 +176,13 @@ public class MetaDataUtils {
      * @return
      */
     public static List<String> loadAllTableName(Connection connection) throws SQLException {
-        ResultSet tableResult = connection.getMetaData().getTables(null, null, null, new String[]{"TABLE"});
+        ((OracleConnection) connection).setRemarksReporting(true);
+        ResultSet tableResult = null;
+        if (connection.getMetaData().getDriverName().equals("Oracle JDBC driver")) {
+            tableResult = connection.getMetaData().getTables(null, connection.getMetaData().getUserName(), "%", new String[]{"TABLE"});
+        } else {
+            tableResult = connection.getMetaData().getTables(null, null, null, new String[]{"TABLE"});
+        }
         List<String> tableNameList = new ArrayList<String>();
         while (tableResult.next()) {
 
@@ -195,15 +202,11 @@ public class MetaDataUtils {
      * @param tableNames 表名列表
      */
     public static void checkTableName(Connection connection, List<String> tableNames) throws SQLException {
-
         for (String tableName : tableNames) {
-
             ResultSet tableResult = connection.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"});
-
             if (!tableResult.next()) {
                 throw new PandaException(String.format("tableName:[%s] not found", tableName));
             }
-
         }
 
     }

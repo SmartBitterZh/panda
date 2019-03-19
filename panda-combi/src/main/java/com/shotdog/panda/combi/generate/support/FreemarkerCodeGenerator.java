@@ -31,9 +31,11 @@ public class FreemarkerCodeGenerator implements CodeGenerator, InitializingBean 
     private final static String DAO_TEMPLATE = "Dao.ftl";
     private final static String BASE_SERVICE_TEMPLATE = "BaseService.ftl";
     private final static String SERVICE_TEMPLATE = "Service.ftl";
+    private final static String CONTROLLER_TEMPLATE = "Controller.ftl";
     private final static String BASE_QUERY_TEMPLATE = "BaseQuery.ftl";
     private final static String QUERY_TEMPLATE = "Query.ftl";
     private final static String MODEL_TEMPLATE = "Model.ftl";
+    private final static String DTO_TEMPLATE = "DTO.ftl";
     private final static String SORT_MODE_TEMPLATE = "SortMode.ftl";
     private final static String SORT_MODE_ENUM_TEMPLATE = "SortModeEnum.ftl";
     private final static String XML_TEMPLATE = "Xml.ftl";
@@ -64,7 +66,8 @@ public class FreemarkerCodeGenerator implements CodeGenerator, InitializingBean 
         root.put("queryPackage", queryPackage);
         root.put("servicePackage", servicePackage);
 
-        String basePath = System.getProperty("java.io.tmpdir");
+        String basePath = System.getProperty("user.dir");
+        //System.getProperty("java.io.tmpdir");
 
         long currentTimeMillis = System.currentTimeMillis();
         basePath = basePath.concat(currentTimeMillis + "");
@@ -95,13 +98,20 @@ public class FreemarkerCodeGenerator implements CodeGenerator, InitializingBean 
 
 
             root.put("table", table);
-            this.generateCode(root, MODEL_TEMPLATE, modelPath, String.format("%s.java", table.getModelName()));
+            // model
+            this.generateCode(root, MODEL_TEMPLATE, modelPath, String.format("%sDO.java", table.getModelName()));
+            // dto
+            this.generateCode(root, DTO_TEMPLATE, modelPath, String.format("%sDTO.java", table.getModelName()));
+            // query
             this.generateCode(root, QUERY_TEMPLATE, queryPath, String.format("%sQuery.java", table.getModelName()));
-
+            // dao
             this.generateCode(root, DAO_TEMPLATE, daoPath, String.format("%sDao.java", table.getModelName()));
+            // service
             this.generateCode(root, SERVICE_TEMPLATE, servicePath, String.format("%sService.java", table.getModelName()));
-
-            this.generateCode(root, XML_TEMPLATE, xmlPath, String.format("%s-sqlmap.xml", table.getTableName()));
+            // controller
+            this.generateCode(root, CONTROLLER_TEMPLATE, servicePath, String.format("%sController.java", table.getModelName()));
+            // mapper xml
+            this.generateCode(root, XML_TEMPLATE, xmlPath, String.format("%sMapper.xml", table.getModelName()));
         }
 
         FileOutputStream fileOutputStream = new FileOutputStream(basePath.concat(".zip"));

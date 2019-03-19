@@ -9,9 +9,11 @@ import    java.util.Date;
 <#if table.includeDecimal>
 import    java.match.BigDecimal;
 </#if>
+
 /***
- *
- * @author Create By Panda
+ * @author zhangjianlong6
+ * @Date: ${.now}
+ * @Description: query for ${table.remark}
  */
 @Data
 @ToString(callSuper = true)

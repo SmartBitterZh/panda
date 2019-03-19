@@ -30,5 +30,7 @@ public class Field implements Serializable {
 
     //  大小
     private Integer size;
+    //  精度
+    private Integer digits;
 
 }

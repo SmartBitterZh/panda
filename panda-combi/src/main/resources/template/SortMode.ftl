@@ -3,9 +3,11 @@ package	${queryPackage};
 import lombok.Data;
 
 import java.io.Serializable;
+
 /***
- *
- * @author Create By Panda
+ * @author zhangjianlong6
+ * @Date: ${.now}
+ * @Description: sort model
  */
 @Data
 public class SortMode implements Serializable {

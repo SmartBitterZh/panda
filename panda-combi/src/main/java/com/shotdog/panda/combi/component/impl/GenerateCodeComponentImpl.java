@@ -39,8 +39,6 @@ public class GenerateCodeComponentImpl implements GenerateCodeComponent {
      * @return
      */
     public String generate(GenerateConfig generateConfig) {
-
-
         String modelPackage = generateConfig.getModelPackage();
         String queryPackage = generateConfig.getQueryPackage();
         String daoPackage = generateConfig.getDaoPackage();

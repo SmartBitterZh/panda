@@ -1,7 +1,6 @@
 package	${servicePackage};
 
-import	${modelPackage}.${table.modelName}DO;
-import	${modelPackage}.${table.modelName}DTO;
+import	${modelPackage}.${table.modelName};
 import	${queryPackage}.${table.modelName}Query;
 import	${daoPackage}.${table.modelName}Dao;
 import	org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import	java.util.List;
  * @Description: service for ${table.remark}
  */
 @Service
-public class ${table.modelName}Service implements BaseService<${table.pkFieldType},${table.modelName},${table.modelName}Query> {
+public class ${table.modelName}ManageService implements BaseService<${table.pkFieldType},${table.modelName},${table.modelName}Query> {
 
 
 	@Autowired

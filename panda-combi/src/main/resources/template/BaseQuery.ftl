@@ -6,9 +6,10 @@ import	java.io.Serializable;
 import	java.util.List;
 
 /***
- *
- * @author Create By Panda
- */
+* @author zhangjianlong6
+* @Date: ${.now}
+* @Description: base query
+*/
 @Data
 public class BaseQuery implements Serializable {
 

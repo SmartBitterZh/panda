@@ -1,20 +1,21 @@
 package	${servicePackage};
 
-import java.util.List;
+imdort java.util.List;
 
 /***
- *
- * @author Create By Panda
- */
-public interface BaseService<PK, PO, QO> {
+* @author zhangjianlong6
+* @Date: ${.now}
+* @Description: base Service
+*/
+public interface BaseService<DTO, DO, QDO> {
 
 
 	/***
      * 插入记录
-     * @param po 实体
+     * @param do 实体
      * @return
      */
-	int insert(PO po);
+	int insert(DO do);
 
 
     /***
@@ -22,69 +23,69 @@ public interface BaseService<PK, PO, QO> {
      * @param list 待插入列表
      * @return
      */
-    int batchInsert(List<PO> list);
+    int batchInsert(List<DO> list);
 
 
 	/***
      * 根据主键更新记录
-     * @param po 实体
+     * @param do 实体
      * @return
      */
-	int updateById(PO po);
+	int updateById(DO do);
 
 
     /**
      * 根据条件更新对象
-     * @param po 对象
-     * @param qo 条件
+     * @param do 对象
+     * @param qdo 条件
      * @return
      */
-    int updateByQuery(PO po,QO qo);
+    int updateByQuery(DO do,QDO qdo);
 
 
 	/***
      * 根据主键查询记录详情
-     * @param pk 主键
+     * @param dto 主键
      * @return
      */
-	PO selectById(PK pk);
+	DO selectById(DTO dto);
 
 	/***
      * 带有行锁根据主键查询记录详情
-     * @param pk 主键
+     * @param dto 主键
      * @return
      */
-	PO selectByIdForUpdate(PK pk);
+	DO selectByIdForUpdate(DTO dto);
 
 
 	/***
      * 根据主键删除记录
-     * @param pk 主键
+     * @param dto 主键
      * @return
      */
-	int deleteById(PK pk);
+	int deleteById(DTO dto);
 
 
 	/***
      * 根据参数分页查询记录列表
-     * @param qo 查询条件
+     * @param qdo 查询条件
      * @return
      */
-	List<PO> queryListByParam(QO qo);
+	List<DO> queryListByParam(QDO qdo);
 
 
     /***
     * 根据查询条件查询记录总是
-    * @param qo 查询条件
+    * @param qdo 查询条件
     * @return
     */
-    int queryCountByParam(QO qo);
+    int queryCountByParam(QDO qdo);
 
 
     /***
      * 根据查询条件查询主键列表
-     * @param qo 查询条件
+     * @param qdo 查询条件
      * @return
      */
-    List<PK> queryPkListByParam(QO qo);
+    List<DTO> queryPkListByParam(QDO qdo);
 }
